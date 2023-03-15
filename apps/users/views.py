@@ -1,3 +1,84 @@
-from django.shortcuts import render
+import jwt
 
-# Create your views here.
+from django.conf import settings
+from django.core.mail import send_mail
+
+from rest_framework import (
+    views, 
+    generics, 
+    status, 
+    permissions
+    )
+from rest_framework.response import Response
+from rest_framework.permissions import (
+    AllowAny, 
+    IsAuthenticated, 
+    IsAdminUser,
+    IsAuthenticatedOrReadOnly
+
+    )
+
+from .serializers import (
+    RegistrationSerializer, 
+    LoginSerializer, UserSerializer)
+from .models import User
+
+
+
+
+class RegistrationView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = RegistrationSerializer
+    permission_classes = [AllowAny ,]
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        headers = self.get_success_headers(serializer.data)
+        user_payload = {
+            'user_id': user.id,
+            'username': user.username
+        }
+        tokens = {
+            'access_token': jwt.encode(user_payload, settings.SECRET_KEY, algorithm="HS256"),
+            'refresh_token': jwt.encode(user_payload, settings.SECRET_KEY, algorithm="HS256")
+        }
+        return Response(
+            tokens,
+            status=status.HTTP_201_CREATED,
+            headers=headers
+        )
+    
+
+class LoginView(generics.GenericAPIView):
+    serializer_class = LoginSerializer
+    permission_classes = []
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return Response(serializer.validated_data, status=status.HTTP_200_OK)
+
+
+
+
+class UserCreateView(generics.CreateAPIView):
+    """Создание пользователя"""
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = (permissions.IsAdminUser,)
+
+
+class UserListView(generics.ListAPIView):
+    """Получение списка пользователей"""
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = (permissions.IsAdminUser, IsAuthenticated)
+
+
+class UserRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    """Получение, обновление и удаление пользователя"""
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = (permissions.IsAdminUser,)
