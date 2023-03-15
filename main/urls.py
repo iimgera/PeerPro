@@ -40,6 +40,12 @@ api_v1 = [
     path('users/create/', UserCreateView.as_view(), name='user-create'),
     path('users/<int:pk>/', UserRetrieveUpdateDestroyView.as_view(), name='user-detail'),
 
+    path('reports/', ReportList.as_view(), name='report-list'),
+    path('reports/<int:pk>/', ReportDetail.as_view(), name='report-detail'),
+    path('report/export/', ReportExcelView.as_view(), name='report-export'),
+    path('teams/',include('apps.dashboard.urls')),
+
+
 ]
 
 
@@ -48,14 +54,6 @@ urlpatterns = [
     path('api/v1/', include(api_v1)),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='redoc'),
-
-    path('reports/', ReportList.as_view(), name='report-list'),
-    path('reports/<int:pk>/', ReportDetail.as_view(), name='report-detail'),
-    path('report/export/', ReportExcelView.as_view(), name='report-export'),
-
-    path('teams/',include('apps.dashboard.urls')),
-    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]
 
 

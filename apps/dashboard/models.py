@@ -1,20 +1,20 @@
 from django.db import models
-from django.contrib.auth.models import User
+from apps.users.models import User
 
 from django.utils import timezone
 
 
 class TeamEmployee(models.Model):
-    add_employee = models.ManyToManyField(User, verbose_name='Сотрудники команды') 
-    name_team = models.CharField(max_length=70, verbose_name='Имя команды')
-    description = models.TextField(verbose_name='Описание команды')
+    add_employee = models.ManyToManyField(User, verbose_name='Team members') 
+    name_team = models.CharField(max_length=70, verbose_name='Team name')
+    description = models.TextField(verbose_name='Description of the team')
 
     def __str__(self):
         return self.name_team
     
     class Meta:
-        verbose_name = 'Команда '
-        verbose_name_plural = 'Команды'
+        verbose_name = 'Team'
+        verbose_name_plural = 'Teams'
         ordering = ['-id']
 
 
@@ -37,7 +37,7 @@ class Report(models.Model):
     deadline = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    sent = models.BooleanField(default=False, verbose_name='Отчет отправлен')
+    sent = models.BooleanField(default=False, verbose_name='Report sent')
 
     def save(self, *args, **kwargs):
         if not self.id:
