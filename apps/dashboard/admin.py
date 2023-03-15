@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from apps.dashboard.models import Report
+from apps.dashboard.models import Report, TeamEmployee
 
 @admin.register(Report)
 class ReportAdmin(admin.ModelAdmin):
@@ -13,8 +13,10 @@ class ReportAdmin(admin.ModelAdmin):
             'deadline', 
             'created_at', 
             'updated_at'
-            )
+        )
     list_filter = (
         'created_at', 
         'updated_at'
         )
+    
+admin.site.register(TeamEmployee)  
