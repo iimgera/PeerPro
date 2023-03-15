@@ -44,7 +44,7 @@ INSTALLED_APPS = [
 
     'corsheaders',
     'rest_framework',
-    'drf-yasg',
+    'drf_yasg',
     
 ]
 
