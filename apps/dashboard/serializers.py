@@ -25,5 +25,5 @@ class TeamEmployeeSerializer(serializers.ModelSerializer):
             'id',
             'add_employee',
             'name_team',
-            'description'
+            'description',
         )
