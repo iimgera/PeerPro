@@ -52,7 +52,7 @@ class RegistrationView(generics.CreateAPIView):
     
 
 class AuthView(generics.GenericAPIView):
-    serializer_class = LoginSerializer
+    serializer_class = AuthSerializer
     permission_classes = []
 
     def post(self, request, *args, **kwargs):
