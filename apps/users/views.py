@@ -20,7 +20,7 @@ from rest_framework.permissions import (
 
 from .serializers import (
     RegistrationSerializer, 
-    LoginSerializer, UserSerializer)
+    AuthSerializer, UserSerializer)
 from .models import User
 
 
