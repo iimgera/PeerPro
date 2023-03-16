@@ -58,5 +58,4 @@ class ProfileSerializer(UserSerializer):
             'first_name', 
             'last_name',
             'department', 
-            'team'
             ]

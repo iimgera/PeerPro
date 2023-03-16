@@ -33,7 +33,6 @@ class User(AbstractUser):
     first_name = models.CharField(max_length=50, blank=False, null=True)
     last_name = models.CharField(max_length=50, blank=False, null=True)
     department = models.CharField(max_length=100, blank=False, null=True)
-    team = models.CharField(max_length=60, blank=False, null=True)
 
     def __str__(self):
         return f"{self.first_name} - {self.last_name}"     
