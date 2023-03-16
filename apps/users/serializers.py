@@ -29,35 +29,32 @@ class RegistrationSerializer(UserCreateSerializer):
         model = User
         fields = ('id', 'email', 'username', 'password')
 
-    
+
+User = get_user_model()
 
 class AuthSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField()
-    
-    class Meta(UserSerializer.Meta):
-        model = User
-        fields = [
-            'id',
-            'username',
-            'password'
-            ] 
 
+    def validate(self, data):
+        username = data.get('username')
+        password = data.get('password')
 
-    def validate(self, attrs):
-        username = attrs.get('username')
-        password = attrs.get('password')
-        user = User.objects.filter(username=username).first()
-        if user is None:
-            raise serializers.ValidationError("User does not exist.")
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            raise serializers.ValidationError('User does not exist.')
+
         if not user.check_password(password):
-            raise serializers.ValidationError("Invalid password.")
+            raise serializers.ValidationError('Invalid password.')
+
         refresh = RefreshToken.for_user(user)
-        data = {
-            'refresh': str(refresh),
-            'access': str(refresh.access_token),
+
+        return {
+            'user_id': user.id,
+            'refresh_token': str(refresh),
+            'access_token': str(refresh.access_token),
         }
-        return data
 
 
 class ProfileSerializer(UserSerializer):
