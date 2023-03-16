@@ -51,7 +51,7 @@ class AuthSerializer(serializers.Serializer):
         return data
 
 
-class UserSerializer(UserSerializer):
+class ProfileSerializer(UserSerializer):
     class Meta(UserSerializer.Meta):
         fields = [
             'id', 

@@ -8,9 +8,9 @@ from drf_yasg.views import get_schema_view
 
 from apps.users import views
 from apps.users.views import (
-    UserCreateView, 
-    UserListView, 
-    UserRetrieveUpdateDestroyView
+    ProfileCreateView, 
+    ProfileListView, 
+    ProfileRetrieveUpdateDestroyView
     )
 from apps.dashboard.views import (
     ReportList, 
@@ -43,9 +43,9 @@ urlpatterns = [
     path('register/', views.RegistrationView.as_view()),
     path('auth/', views.AuthView.as_view()),
 
-    path('users/', UserListView.as_view(), name='user-list'),
-    path('users/create/', UserCreateView.as_view(), name='user-create'),
-    path('users/<int:pk>/', UserRetrieveUpdateDestroyView.as_view(), name='user-detail'),
+    path('profiles/', ProfileListView.as_view(), name='profile-list'),
+    path('profiles/create/', ProfileCreateView.as_view(), name='profile-create'),
+    path('profiles/<int:pk>/', ProfileRetrieveUpdateDestroyView.as_view(), name='profile-detail'),
 
     path('reports/', ReportList.as_view(), name='report-list'),
     path('reports/<int:pk>/', ReportDetail.as_view(), name='report-detail'),
