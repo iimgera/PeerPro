@@ -41,7 +41,7 @@ urlpatterns = [
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='redoc'),
 
     path('register/', views.RegistrationView.as_view()),
-    path('auth/', views.LoginView.as_view()),
+    path('auth/', views.AuthView.as_view()),
 
     path('users/', UserListView.as_view(), name='user-list'),
     path('users/create/', UserCreateView.as_view(), name='user-create'),
