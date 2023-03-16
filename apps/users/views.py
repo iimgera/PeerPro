@@ -67,7 +67,7 @@ class UserCreateView(generics.CreateAPIView):
     """Создание пользователя"""
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = (permissions.IsAdminUser,)
+    permission_classes = (permissions.IsAuthenticated)
 
 
 class UserListView(generics.ListAPIView):
@@ -81,4 +81,4 @@ class UserRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     """Получение, обновление и удаление пользователя"""
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = (permissions.IsAdminUser,)
+    permission_classes = (permissions.IsAdminUser, IsAuthenticated)
