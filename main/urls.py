@@ -8,6 +8,7 @@ from rest_framework import permissions
 from apps.dashboard.views import (
     ReportList, ReportDetail, 
     ReportExcelView, 
+    ReportTeamList
     )
 
 
@@ -31,8 +32,9 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('reports/', ReportList.as_view(), name='report-list'),
-    path('reports/<int:pk>/', ReportDetail.as_view(), name='report-detail'),
-    path('report/export/', ReportExcelView.as_view(), name='report-export'),
+    path('report/<int:pk>/', ReportDetail.as_view(), name='report-detail'),
+    path('reports/export/', ReportExcelView.as_view(), name='report-export'),
+    path('report/team', ReportTeamList.as_view()),
     path('teams/',include('apps.dashboard.urls')),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),

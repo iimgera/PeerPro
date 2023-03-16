@@ -5,7 +5,6 @@ from django.utils import timezone
 
 
 class TeamEmployee(models.Model):
-    add_employee = models.ManyToManyField(User, verbose_name='Сотрудники команды') 
     name_team = models.CharField(max_length=70, verbose_name='Имя команды')
     description = models.TextField(verbose_name='Описание команды')
 
@@ -58,3 +57,5 @@ class Report(models.Model):
         ordering = ['-id']
 
 
+
+    

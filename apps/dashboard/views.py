@@ -7,14 +7,18 @@ from rest_framework.views import APIView
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
-from apps.dashboard.models import Report, TeamEmployee
+from apps.dashboard.models import Report, TeamEmployee, ReportTeam
 from apps.dashboard.serializers import (
-    ReportSerializer, TeamEmployeeSerializer)
+    ReportSerializer, 
+    TeamEmployeeSerializer,
+    ReportTeamSerializer)
 
 from openpyxl import Workbook
 
 from rest_framework import viewsets
 
+from datetime import datetime, timedelta
+from openpyxl.utils import get_column_letter
 
 
 class ReportList(generics.ListCreateAPIView):
@@ -25,7 +29,7 @@ class ReportList(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
-    @action(detail=False, methods=['get'])
+    @action(detail=False, methods=['post'])
     def stats(self, request):
         sent_count = Report.objects.filter(sent=True).count()
         unsent_count = Report.objects.filter(sent=False).count()
@@ -73,6 +77,14 @@ class ReportExcelView(APIView):
         sheet['E1'] = 'Next Week'
         sheet['F1'] = 'Deadline'
         
+        # Настройка ширины столбца
+        sheet.column_dimensions[get_column_letter(1)].width = 15
+        sheet.column_dimensions[get_column_letter(2)].width = 15
+        sheet.column_dimensions[get_column_letter(3)].width = 15 
+        sheet.column_dimensions[get_column_letter(4)].width = 15 
+        sheet.column_dimensions[get_column_letter(5)].width = 15 
+        sheet.column_dimensions[get_column_letter(6)].width = 15 
+
         # Добавление данных модели Report в таблицу
         for idx, report in enumerate(reports, start=2):
             sheet.cell(row=idx, column=1, value=report.user.username)
@@ -88,9 +100,6 @@ class ReportExcelView(APIView):
         workbook.save(response)
 
         return response
-
-
-
 
 
 

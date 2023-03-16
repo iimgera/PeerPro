@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from apps.dashboard.models import Report, TeamEmployee
+from apps.dashboard.models import Report, TeamEmployee, ReportTeam
 
 class ReportSerializer(serializers.ModelSerializer):
     class Meta:
@@ -23,7 +23,9 @@ class TeamEmployeeSerializer(serializers.ModelSerializer):
         model = TeamEmployee
         fields = (
             'id',
-            'add_employee',
             'name_team',
             'description'
         )
+
+
+     
