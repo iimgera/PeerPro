@@ -1,6 +1,7 @@
 from rest_framework import  serializers
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from django.db import IntegrityError
 from django.contrib.auth import get_user_model
 
 from .models import User
@@ -57,11 +58,30 @@ class AuthSerializer(serializers.Serializer):
         }
 
 
-class ProfileSerializer(UserSerializer):
+class UserSerializer(UserSerializer):
     class Meta(UserSerializer.Meta):
+        model = User
         fields = [
-            'id', 
-            'first_name', 
-            'last_name',
-            'department', 
+            'id',
+            'username', 
+            'email',
+            'password',
             ]
+
+
+# class ProfileSerializer(serializers.ModelSerializer):
+#     username = serializers.CharField(max_length=150)
+
+#     class Meta:
+#         model = User
+#         fields = ('id', 'email', 'username', 'first_name', 'last_name', 'department',)
+
+
+#     def create(self, validated_data):
+#         username = validated_data.pop('username')
+#         try:
+#             user = User.objects.create_user(username=username, password='defaultpassword')
+#         except IntegrityError:
+#             raise serializers.ValidationError('Username already exists')
+#         profile = Profile.objects.create(user=user, **validated_data)
+#         return profile

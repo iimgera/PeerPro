@@ -15,6 +15,7 @@ from apps.dashboard.serializers import (
     )
 
 from openpyxl import Workbook
+from openpyxl.utils import get_column_letter
 
 
 
@@ -22,7 +23,7 @@ from openpyxl import Workbook
 class ReportList(generics.ListCreateAPIView):
     queryset = Report.objects.all()
     serializer_class = ReportSerializer
-    permission_classes = [IsAuthenticated, IsAdminUser]
+    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -75,6 +76,12 @@ class ReportExcelView(APIView):
         sheet['E1'] = 'Next Week'
         sheet['F1'] = 'Deadline'
         
+        # Настройка ширины столбца  sheet.column_dimensions[get_column_letter(1)].width = 15
+        sheet.column_dimensions[get_column_letter(2)].width = 15
+        sheet.column_dimensions[get_column_letter(3)].width = 15 
+        sheet.column_dimensions[get_column_letter(4)].width = 15 
+        sheet.column_dimensions[get_column_letter(5)].width = 15 
+        sheet.column_dimensions[get_column_letter(6)].width = 15
         # Добавление данных модели Report в таблицу
         for idx, report in enumerate(reports, start=2):
             sheet.cell(row=idx, column=1, value=report.user.username)

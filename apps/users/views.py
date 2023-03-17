@@ -20,7 +20,9 @@ from rest_framework.permissions import (
 
 from .serializers import (
     RegistrationSerializer, 
-    AuthSerializer, ProfileSerializer)
+    AuthSerializer, 
+    UserSerializer
+    )
 from .models import User
 
 
@@ -70,22 +72,19 @@ class AuthView(generics.GenericAPIView):
 
 
 
-class ProfileCreateView(generics.CreateAPIView):
-    """Создание профиля"""
-    queryset = User.objects.all()
-    serializer_class = ProfileSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+# class ProfileCreateView(generics.CreateAPIView):
+#     queryset = User.objects.all()
+#     serializer_class = ProfileSerializer
+#     permission_classes = (permissions.IsAuthenticated,)
 
 
-class ProfileListView(generics.ListAPIView):
-    """Получение списка профилей"""
+class UserListView(generics.ListAPIView):
     queryset = User.objects.all()
-    serializer_class = ProfileSerializer
+    serializer_class = UserSerializer
     permission_classes = (permissions.IsAdminUser, IsAuthenticated,)
 
 
-class ProfileRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
-    """Получение, обновление и удаление профиля"""
+class UserRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
-    serializer_class = ProfileSerializer
+    serializer_class =UserSerializer
     permission_classes = (permissions.IsAdminUser, IsAuthenticated,)

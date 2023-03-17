@@ -7,10 +7,9 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 
 from apps.users import views
-from apps.users.views import (
-    ProfileCreateView, 
-    ProfileListView, 
-    ProfileRetrieveUpdateDestroyView
+from apps.users.views import ( 
+    UserListView, 
+    UserRetrieveUpdateDestroyView
     )
 from apps.dashboard.views import (
     ReportList, 
@@ -43,9 +42,8 @@ urlpatterns = [
     path('register/', views.RegistrationView.as_view()),
     path('auth/', views.AuthView.as_view()),
 
-    path('profiles/', ProfileListView.as_view(), name='profile-list'),
-    path('profiles/create/', ProfileCreateView.as_view(), name='profile-create'),
-    path('profiles/<int:pk>/', ProfileRetrieveUpdateDestroyView.as_view(), name='profile-detail'),
+    path('users/', UserListView.as_view(), name='profile-list'),
+    path('users/<int:pk>/', UserRetrieveUpdateDestroyView.as_view(), name='profile-detail'),
 
     path('reports/', ReportList.as_view(), name='report-list'),
     path('reports/<int:pk>/', ReportDetail.as_view(), name='report-detail'),
