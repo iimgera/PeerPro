@@ -12,8 +12,7 @@ from apps.users.views import (
     UserRetrieveUpdateDestroyView
     )
 from apps.dashboard.views import (
-    ReportList, 
-    ReportDetail, 
+    ReportList, ReportDetail, 
     ReportExcelView, 
     )
 
@@ -46,8 +45,8 @@ urlpatterns = [
     path('users/<int:pk>/', UserRetrieveUpdateDestroyView.as_view(), name='profile-detail'),
 
     path('reports/', ReportList.as_view(), name='report-list'),
-    path('reports/<int:pk>/', ReportDetail.as_view(), name='report-detail'),
-    path('report/export/', ReportExcelView.as_view(), name='report-export'),
+    path('report/<int:pk>/', ReportDetail.as_view(), name='report-detail'),
+    path('reports/export/', ReportExcelView.as_view(), name='report-export'),
     path('teams/',include('apps.dashboard.urls')),
 ]
 

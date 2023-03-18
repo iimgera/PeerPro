@@ -1,29 +1,31 @@
 from django.db.models import Count
 from django.http import HttpResponse
 
-from rest_framework import generics
+from rest_framework import generics, permissions
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
-from apps.dashboard.models import Report, TeamEmployee
-from apps.dashboard.serializers import (
-    ReportSerializer, 
-    TeamEmployeeSerializer
-    )
-
 from openpyxl import Workbook
 from openpyxl.utils import get_column_letter
 
-
+from apps.dashboard.models import (
+    Report, 
+    TeamEmployee,
+)
+from apps.dashboard.serializers import (
+    ReportSerializer,
+    TeamEmployeeSerializer,
+)
 
 
 class ReportList(generics.ListCreateAPIView):
     queryset = Report.objects.all()
     serializer_class = ReportSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated,]
+
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -32,15 +34,13 @@ class ReportList(generics.ListCreateAPIView):
     def stats(self, request):
         sent_count = Report.objects.filter(sent=True).count()
         unsent_count = Report.objects.filter(sent=False).count()
-        return Response({'sent_count': sent_count, 'unsent_count': unsent_count})    
-
+        return Response({'sent_count': sent_count, 'unsent_count': unsent_count})
 
 
 class ReportDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Report.objects.all()
     serializer_class = ReportSerializer
-    permission_classes = [IsAdminUser]
-
+    permission_classes = [permissions.IsAuthenticated,]
 
 
 class TeamEmployeeView(viewsets.ModelViewSet):
@@ -53,8 +53,6 @@ class TeamEmployeeView(viewsets.ModelViewSet):
         else:
             permission_classes = [IsAdminUser]
         return [permission() for permission in permission_classes]
-
-
 
 
 class ReportExcelView(APIView):
@@ -75,13 +73,14 @@ class ReportExcelView(APIView):
         sheet['D1'] = 'This Week'
         sheet['E1'] = 'Next Week'
         sheet['F1'] = 'Deadline'
-        
+
         # Настройка ширины столбца  sheet.column_dimensions[get_column_letter(1)].width = 15
         sheet.column_dimensions[get_column_letter(2)].width = 15
-        sheet.column_dimensions[get_column_letter(3)].width = 15 
-        sheet.column_dimensions[get_column_letter(4)].width = 15 
-        sheet.column_dimensions[get_column_letter(5)].width = 15 
+        sheet.column_dimensions[get_column_letter(3)].width = 40
+        sheet.column_dimensions[get_column_letter(4)].width = 40
+        sheet.column_dimensions[get_column_letter(5)].width = 40
         sheet.column_dimensions[get_column_letter(6)].width = 15
+
         # Добавление данных модели Report в таблицу
         for idx, report in enumerate(reports, start=2):
             sheet.cell(row=idx, column=1, value=report.user.username)
@@ -97,8 +96,5 @@ class ReportExcelView(APIView):
         workbook.save(response)
 
         return response
-
-
-
 
 

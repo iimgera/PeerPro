@@ -5,14 +5,14 @@ class ReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Report
         fields = (
-            'id', 
-            'user', 
+            'id',
+            'user',
             'week_start_date',
-            'last_week', 
-            'this_week', 
+            'last_week',
+            'this_week',
             'next_week',
-            'deadline', 
-            'created_at', 
+            'deadline',
+            'created_at',
             'updated_at',
             'sent',
         )

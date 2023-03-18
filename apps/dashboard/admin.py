@@ -6,23 +6,23 @@ from apps.dashboard.models import TeamEmployee, Report
 
 @admin.register(TeamEmployee)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ( 
+    list_display = (
             'id',
             'name_team',
-            'description'
+            'description',
             )
 
 @admin.register(Report)
 class UserAdmin(admin.ModelAdmin):
     list_display = (
-            'id', 
-            'user', 
+            'id',
+            'user',
             'week_start_date',
-            'last_week', 
-            'this_week', 
+            'last_week',
+            'this_week',
             'next_week',
-            'deadline', 
-            'created_at', 
+            'deadline',
+            'created_at',
             'updated_at',
             'sent',
             )

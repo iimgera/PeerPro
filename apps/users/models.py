@@ -4,6 +4,7 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import gettext_lazy as _
 
 
+
 class CustomUserManager(BaseUserManager):
     def create_user(self, username, password, **extra_fields):
         if not username:
@@ -30,8 +31,9 @@ class User(AbstractUser):
     is_admin = models.BooleanField(
         default=False, verbose_name='Admin'
     )
+
     def __str__(self):
-        return f"{self.first_name} - {self.last_name}"     
+        return f"{self.first_name} - {self.last_name}"
 
     USERNAME_FIELD = "username"
     REQUIRED_FIELDS = []
@@ -40,6 +42,5 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.email
-
 
 
