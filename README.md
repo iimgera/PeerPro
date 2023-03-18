@@ -10,6 +10,9 @@
 - Django Rest Framework
 - Docker Compose
 
+Задеплоенный проект:
+https://peer.pythonanywhere.com/
+
 
 
                                               Настройка проекта
