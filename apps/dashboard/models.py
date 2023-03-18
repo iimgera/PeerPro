@@ -48,16 +48,20 @@ class Report(models.Model):
         verbose_name='What are your plans for the next week?'
     )
 
-    deadline = models.DateField()
+    deadline = models.DateField(
+        verbose_name='Deadline',
+    )
     created_at = models.DateTimeField(
-        auto_now_add=True
+        auto_now_add=True,
+        verbose_name='Created at',
     )
     updated_at = models.DateTimeField(
-        auto_now=True
+        auto_now=True,
+        verbose_name='Updated at',
     )
     sent = models.BooleanField(
         default=False, 
-        verbose_name='Report sent'
+        verbose_name='Report sent',
     )
 
     def save(self, *args, **kwargs):
